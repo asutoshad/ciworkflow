@@ -1,0 +1,13 @@
+name: Run on test branch only
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  echo-test-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "✅ You pushed to the test branch!"
