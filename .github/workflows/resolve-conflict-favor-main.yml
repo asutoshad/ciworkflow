@@ -1,0 +1,39 @@
+name: Auto Merge main into test and resolve conflicts
+
+on:
+  workflow_dispatch:  
+
+jobs:
+  merge-main-into-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout test branch
+        uses: actions/checkout@v3
+        with:
+          ref: test
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Git user
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+      - name: Add upstream and fetch main
+        run: |
+          git remote add upstream https://github.com/${{ github.repository }}.git
+          git fetch upstream main
+
+      - name: Merge main into test (favor main)
+        run: |
+          git merge -X theirs upstream/main || true
+
+      
+          if git ls-files -u | grep README.md; then
+            echo "Resolving README.md using main's version"
+            git checkout upstream/main -- README.md
+          fi
+
+          git add .
+          git commit -m "🤖 Auto-merge main into test with conflict resolution (favor main)" || echo "Nothing to commit"
+          git push origin test
