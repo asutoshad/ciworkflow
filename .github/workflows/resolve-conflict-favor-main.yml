@@ -5,8 +5,7 @@ on:
 
 jobs:
   merge-main-into-test:
-    runs-on: ubuntu-latest
-
+    runs-on: [testurn]
     steps:
       - name: Checkout test branch
         uses: actions/checkout@v3
