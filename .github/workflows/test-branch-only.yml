@@ -7,7 +7,7 @@ on:
 
 jobs:
   echo-test-branch:
-    runs-on: ubuntu-latest
+    runs-on: [testurn]
     steps:
       - name: Say Hello
         run: echo "✅ You pushed to the test branch!"
